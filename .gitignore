@@ -1,0 +1,41 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Angular build/cache
+dist/
+.angular/
+out-tsc/
+*.tsbuildinfo
+
+# IDE
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# VS Code (manteniamo solo configurazioni rilevanti)
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Dev Container (lo versioniamo!)
+# → quindi NON ignorarlo
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Coverage / test output
+coverage/
+testem.log
+libpeerconnection.log
+.sass-cache/
+.history/
