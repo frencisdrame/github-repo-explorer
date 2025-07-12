@@ -39,3 +39,6 @@ testem.log
 libpeerconnection.log
 .sass-cache/
 .history/
+
+# Angular local environments
+/src/environments/environment.local.ts
