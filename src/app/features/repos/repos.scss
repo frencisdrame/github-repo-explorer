@@ -21,5 +21,12 @@
 .p-input-icon-left i {
   position: absolute;
   left: 0.75rem;
-  
+}
+
+.error-message {
+  color: #b00020;
+  background: #fdd;
+  padding: 1rem;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
 }

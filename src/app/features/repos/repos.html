@@ -1,3 +1,6 @@
+<p *ngIf="errorMessage()" class="error-message">
+  {{ errorMessage() }}
+</p>
 <p-table [value]="items()">
   <!-- 🔍 Toolbar -->
   <ng-template pTemplate="caption">
@@ -18,7 +21,7 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-item>
-    <tr>
+    <tr (click)="onRowClick(item)" style="cursor: pointer;">
       <td>{{ item.name }}</td>
       <td><img [src]="item.avatar" alt="Owner avatar" width="40" height="40" style="border-radius: 50%; object-fit: cover;" /></td>
       <td>{{ item.createdAt | date: 'short' }}</td>
