@@ -1,0 +1,24 @@
+.search-toolbar {
+  display: flex;
+  align-items: center; /* allineamento verticale al centro */
+  gap: 0.5rem;          /* spazio tra bottone e input */
+}
+
+
+.equal-height-input {
+  height: 2.3rem;       /* stessa altezza del bottone */
+  padding-left: 2rem;   /* spazio per l'icona */
+  box-sizing: border-box;
+}
+
+/* Centrare icona nell'input */
+.p-input-icon-left {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.p-input-icon-left i {
+  position: absolute;
+  left: 0.75rem;
+}

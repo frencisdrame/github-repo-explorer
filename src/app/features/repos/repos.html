@@ -1,0 +1,26 @@
+<p>Repos</p>
+<p-table [value]="items()" >
+     <ng-template pTemplate="caption">
+        <div class="search-toolbar">
+              <p-button label="Clear" [outlined]="true" icon="pi pi-filter-slash" (click)="clearFilterHandler()" />
+              <span class="p-input-icon-left">
+                  <i class="pi pi-search"></i>
+                  <input pInputText [ngModel]="search()" type="text" (input)="searchChangeHandler($event)" placeholder="Search keyword" class="equal-height-input"  />
+              </span>
+        </div>
+     </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+            <th>Name</th>
+            <th>Avatar</th>
+            <th>Created At</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-item>
+        <tr>
+            <td>{{item.name}}</td>
+            <td><img [src]="item.avatar" alt="Avatar" width="50"></td>
+            <td>{{item.createdAt | date:'short'}}</td>
+        </tr>
+    </ng-template>
+</p-table>
