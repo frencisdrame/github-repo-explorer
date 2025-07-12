@@ -1,18 +1,18 @@
 # GitHub Repo Explorer (Angular)
 
-Un'app Angular per esplorare repository GitHub, con supporto a DevContainer per ambienti di sviluppo consistenti.
+An Angular app to explore GitHub repositories, with DevContainer support for consistent development environments.
 
-## 🚀 Come iniziare
+## 🚀 Getting Started
 
-### Opzione 1 – Usare VS Code con DevContainer
+### Option 1 – Use VS Code with DevContainer
 
-1. Assicurati di avere:
-   - Docker
-   - VS Code
-   - L'estensione **Dev Containers**
+1. Make sure you have:
+   - Docker  
+   - VS Code  
+   - The **Dev Containers** extension  
 
-2. Clona il progetto:
+2. Clone the project:
 
    ```bash
-   git clone https://github.com/tuo-utente/github-repo-explorer.git
+   git clone https://github.com/frencisdrame/github-repo-explorer.git
    cd github-repo-explorer
