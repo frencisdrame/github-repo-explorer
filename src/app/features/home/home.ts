@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AppTitle } from '../../shared/components/app-title/app-title';     
 import { SearchBar} from '../../shared/components/search-bar/search-bar';
+import { SearchStateService } from '../../core/search-state.service';
 
 @Component({
   selector: 'app-home',
@@ -12,21 +13,16 @@ import { SearchBar} from '../../shared/components/search-bar/search-bar';
   styleUrls: ['./home.scss']
 })
 export class Home {
-  searchQuery = '';
+  private searchState = inject(SearchStateService);
+  private router = inject(Router);
 
-  constructor(
-    private router: Router
-  ) {}
+  query = this.searchState.getQueryValue();
 
-  onSearchChange(query: string) {
-    this.searchQuery = query;
-  }
 
-  onSearchSubmit() {
-    const trimmed = this.searchQuery.trim();
-    if (trimmed) {
-      this.router.navigate(['/repos']); // 🔹 nessun query param
-    }
+  onSearch() {
+    console.log('home Search query:', this.query);
+   this.searchState.setQuery(this.query);
+  this.router.navigate(['/repos']);
   }
 
 }

@@ -2,9 +2,9 @@
   <app-title></app-title>
 
   <app-search-bar  class="search-form"
-    [query]="searchQuery"
-    (queryChange)="onSearchChange($event)"
-    (submit)="onSearchSubmit()"
+     [query]="query"
+    (queryChange)="query = $event"
+    (enter)="onSearch()"
   ></app-search-bar>
 
 

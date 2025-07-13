@@ -9,9 +9,11 @@
       <p-button label="Clear" [outlined]="true" icon="pi pi-filter-slash" (click)="clearFilterHandler()" class="p-button-sm"></p-button>
 
       <app-search-bar
-        [query]="search()"
-        (input)="searchChangeHandler($event)"
-      ></app-search-bar>
+        [query]="querySignal()"
+        (queryChange)="onQueryChange($event)" 
+        (enter)="onSearchSubmit()"
+      />
+
     </div>
   </ng-template>
   <ng-template pTemplate="header">

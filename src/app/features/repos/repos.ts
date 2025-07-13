@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
@@ -8,6 +8,7 @@ import { SelectedRepoService } from '../../core/selected-repo.service';
 import { Router } from '@angular/router';
 import { SearchBar } from '../../shared/components/search-bar/search-bar';
 import { AppTitle } from '../../shared/components/app-title/app-title';
+import { SearchStateService } from '../../core/search-state.service';
 
 interface RepoListItem {
   avatar: string;
@@ -33,22 +34,33 @@ interface RepoListItem {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Repos implements OnInit {
-  readonly search = signal('angular');
+ readonly searchState = inject(SearchStateService); // ✅ ora è pubblica e visibile nel template
+  private readonly githubService = inject(GithubService);
+  private readonly selectedRepoService = inject(SelectedRepoService);
+  private readonly router = inject(Router);
+
+  // Signals
+  readonly querySignal = this.searchState.query;
   readonly items = signal<Array<RepoListItem>>([]);
   readonly errorMessage = signal<string | null>(null);
 
-  constructor(
-    private githubService: GithubService,
-    private selectedRepoService: SelectedRepoService,
-    private router: Router
-  ) {}
-
-  ngOnInit(): void {
-    this.fetchRepos();
+  ngOnInit() {
+    const currentQuery = this.searchState.getQueryValue();
+    if (currentQuery.trim()) {
+      this.fetchRepos(currentQuery);
+    }
   }
 
-  fetchRepos() {
-    this.githubService.searchRepos({ term: this.search() }).subscribe({
+  onSearchSubmit() {
+    const term = this.querySignal(); // ✅ ora è un signal, quindi chiamabile
+    if (term.trim()) {
+      this.searchState.setQuery(term); // Facoltativo se già aggiornato da queryChange
+      this.fetchRepos(term);
+    }
+  }
+
+  fetchRepos(term: string) {
+    this.githubService.searchRepos({ term }).subscribe({
       next: (res) => {
         const mapped = res.items.map((r: GithubRepo) => ({
           avatar: r.owner.avatar_url,
@@ -57,7 +69,7 @@ export class Repos implements OnInit {
           createdAt: new Date(r.created_at)
         }));
         this.items.set(mapped);
-        this.errorMessage.set(null); // ✅ resetta errore se tutto ok
+        this.errorMessage.set(null);
       },
       error: (err) => {
         if (err.status === 403) {
@@ -65,22 +77,17 @@ export class Repos implements OnInit {
         } else if (err.status === 404) {
           this.errorMessage.set('Commits not found for this repository.');
         } else {
-          this.errorMessage.set('An error occurred while fetching commits from GitHub.');
+          this.errorMessage.set('An error occurred while fetching repositories from GitHub.');
         }
-        console.error('Error fetching commits from GitHub:', err);
+        console.error('Error fetching repos from GitHub:', err);
       }
     });
   }
 
   clearFilterHandler(): void {
-    this.search.set('');
-    this.fetchRepos();
-  }
-
-  searchChangeHandler(event: Event): void {
-    const val = (event.target as HTMLInputElement).value;
-    this.search.set(val);
-    this.fetchRepos();
+    this.searchState.setQuery('');
+    this.items.set([]);
+    this.errorMessage.set(null);
   }
 
   onRowClick(repo: GithubRepo) {
@@ -88,4 +95,7 @@ export class Repos implements OnInit {
     this.router.navigate(['/commits']);
   }
 
+  onQueryChange(newQuery: string) {
+    this.searchState.setQuery(newQuery);
+  }
 }
