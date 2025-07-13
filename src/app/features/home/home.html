@@ -1,0 +1,11 @@
+<div class="home-container">
+  <app-title></app-title>
+
+  <app-search-bar  class="search-form"
+    [query]="searchQuery"
+    (queryChange)="onSearchChange($event)"
+    (submit)="onSearchSubmit()"
+  ></app-search-bar>
+
+
+</div>

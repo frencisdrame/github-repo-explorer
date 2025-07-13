@@ -7,6 +7,7 @@ import { GithubService, GithubRepo } from '../../core/github.service';
 import { SelectedRepoService } from '../../core/selected-repo.service';
 import { Router } from '@angular/router';
 import { SearchBar } from '../../shared/components/search-bar/search-bar';
+import { AppTitle } from '../../shared/components/app-title/app-title';
 
 interface RepoListItem {
   avatar: string;
@@ -24,7 +25,8 @@ interface RepoListItem {
     ButtonModule,
     TableModule,
     DatePipe,
-    SearchBar
+    SearchBar,
+    AppTitle
   ],
   templateUrl: './repos.html',
   styleUrls: ['./repos.scss'],

@@ -4,7 +4,8 @@
     pInputText
     [ngModel]="query"
     (input)="onInputChange($event)"
-    placeholder="Search keyword"
+    (keyup.enter)="onSubmit()"
+    placeholder="Search repositories and issues" 
     class="equal-height-input"
     type="text"
   />

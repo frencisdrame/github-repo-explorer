@@ -35,7 +35,7 @@ export class GithubService {
   constructor(private http: HttpClient) {}
 
   searchRepos(params: SearchRepoParams): Observable<GithubSearchResponse> {
-    const query = encodeURIComponent(params.term || 'angular');
+    const query = encodeURIComponent(params.term);
     const headers = new HttpHeaders({
       Authorization: `Bearer ${GITHUB_TOKEN}`
     });
@@ -47,8 +47,12 @@ export class GithubService {
   }
 
   searchCommits(repoFullName: string): Observable<any[]> {
-    const url = `https://api.github.com/repos/${repoFullName}/commits`;
-    return this.http.get<any[]>(url);
+    const url = `${this.baseUrl}/repos/${repoFullName}/commits`;
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${GITHUB_TOKEN}`
+    });
+
+    return this.http.get<any[]>(url, { headers });
   }
 
 }

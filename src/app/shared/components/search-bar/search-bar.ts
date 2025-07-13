@@ -13,6 +13,11 @@ import { InputTextModule } from 'primeng/inputtext';
 export class SearchBar {
   @Input() query: string = '';
   @Output() queryChange = new EventEmitter<string>();
+  @Output() submit = new EventEmitter<void>();
+
+  onSubmit() {
+    this.submit.emit();
+  }
 
   onInputChange(event: Event) {
     const value = (event.target as HTMLInputElement).value;

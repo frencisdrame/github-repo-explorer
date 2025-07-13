@@ -2,6 +2,8 @@
   height: 2.3rem;       /* stessa altezza del bottone */
   padding-left: 2rem;   /* spazio per l'icona */
   box-sizing: border-box;
+  width: 100%;         /* occupa tutta la larghezza disponibile */
+  font-size: 1rem;      /* dimensione del testo */
 }
 
 /* Centrare icona nell'input */
