@@ -45,4 +45,10 @@ export class GithubService {
       { headers }
     );
   }
+
+  searchCommits(repoFullName: string): Observable<any[]> {
+    const url = `https://api.github.com/repos/${repoFullName}/commits`;
+    return this.http.get<any[]>(url);
+  }
+
 }
