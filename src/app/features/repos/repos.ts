@@ -6,6 +6,7 @@ import { TableModule } from 'primeng/table';
 import { GithubService, GithubRepo } from '../../core/github.service';
 import { SelectedRepoService } from '../../core/selected-repo.service';
 import { Router } from '@angular/router';
+import { SearchBar } from '../../shared/components/search-bar/search-bar';
 
 interface RepoListItem {
   avatar: string;
@@ -22,7 +23,8 @@ interface RepoListItem {
     FormsModule,
     ButtonModule,
     TableModule,
-    DatePipe
+    DatePipe,
+    SearchBar
   ],
   templateUrl: './repos.html',
   styleUrls: ['./repos.scss'],
