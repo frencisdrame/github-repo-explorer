@@ -1,0 +1,14 @@
+<div class="filter-container">
+  <h4>Filter By</h4>
+  <p-button 
+    label="Repositories" 
+    (click)="select('repositories')"
+    [outlined]="selected !== 'repositories'"
+    styleClass="w-full mb-2" />
+    
+  <p-button 
+    label="Issues" 
+    (click)="select('issues')"
+    [outlined]="selected !== 'issues'"
+    styleClass="w-full" />
+</div>

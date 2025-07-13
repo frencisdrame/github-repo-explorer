@@ -46,6 +46,19 @@ export class GithubService {
     );
   }
 
+  searchIssues(term: string): Observable<any> {
+    const query = encodeURIComponent(`${term} is:issue`);
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${GITHUB_TOKEN}`
+    });
+
+    return this.http.get<any>(
+      `${this.baseUrl}/search/issues?q=${query}`,
+      { headers }
+    );
+  }
+
+
   searchCommits(repoFullName: string): Observable<any[]> {
     const url = `${this.baseUrl}/repos/${repoFullName}/commits`;
     const headers = new HttpHeaders({
