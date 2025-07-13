@@ -1,7 +1,16 @@
 h1 {
   font-size: 2rem;
   font-weight: bold;
- text-align: center;
+  text-align: center;
   margin: 2rem 0;
+}
 
+.app-title-link {
+  text-decoration: none;
+  color: inherit;
+
+  &:hover,
+  &:focus {
+    text-decoration: none; // Nessuna sottolineatura al passaggio del mouse
+  }
 }

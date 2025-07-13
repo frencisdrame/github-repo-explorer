@@ -1,13 +1,41 @@
-.search-toolbar {
-  display: flex;
-  align-items: center; /* allineamento verticale al centro */
-  gap: 0.5rem;          /* spazio tra bottone e input */
-}
-
 .error-message {
   color: #b00020;
   background: #fdd;
   padding: 1rem;
   border-radius: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+
+.search-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  margin-left: 220px;
+}
+
+.search-toolbar app-search-bar {
+  flex: 1;
+  min-width: 250px; // opzionale: imposta una larghezza minima
+}
+
+.content-layout {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.sidebar {
+  flex: 0 0 220px;
+}
+
+.results-table {
+  flex: 1;
+}
+
+.error-message {
+  color: #d32f2f;
+  font-weight: bold;
   margin-bottom: 1rem;
 }

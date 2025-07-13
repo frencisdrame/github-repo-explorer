@@ -1,0 +1,28 @@
+.filter-container {
+  padding: 1rem;
+  border-right: 1px solid #ddd;
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filter-container p-button,
+.filter-container p-button button {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+
+}
+
+.filter-container p-button button {
+  width: 100%;
+  min-width: 160px; // imposta una larghezza minima uguale per tutti
+  max-width: 100%;
+  display: flex;
+}
+
+.filter-container p-button .p-button-label {
+  flex: 1 1 auto;
+  text-align: center;
+}

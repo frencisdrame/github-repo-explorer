@@ -8,6 +8,7 @@ import { SelectedRepoService } from '../../core/selected-repo.service';
 import { Router } from '@angular/router';
 import { SearchBar } from '../../shared/components/search-bar/search-bar';
 import { AppTitle } from '../../shared/components/app-title/app-title';
+import { MenuFilterBy } from '../../shared/components/menu-filter-by/menu-filter-by';
 import { SearchStateService } from '../../core/search-state.service';
 
 interface RepoListItem {
@@ -27,7 +28,8 @@ interface RepoListItem {
     TableModule,
     DatePipe,
     SearchBar,
-    AppTitle
+    AppTitle,
+    MenuFilterBy
   ],
   templateUrl: './repos.html',
   styleUrls: ['./repos.scss'],
@@ -43,6 +45,7 @@ export class Repos implements OnInit {
   readonly querySignal = this.searchState.query;
   readonly items = signal<Array<RepoListItem>>([]);
   readonly errorMessage = signal<string | null>(null);
+  readonly searchMode = signal<'repositories' | 'issues'>('repositories');
 
   ngOnInit() {
     const currentQuery = this.searchState.getQueryValue();
@@ -60,6 +63,9 @@ export class Repos implements OnInit {
   }
 
   fetchRepos(term: string) {
+  const mode = this.searchMode();
+
+  if (mode === 'repositories') {
     this.githubService.searchRepos({ term }).subscribe({
       next: (res) => {
         const mapped = res.items.map((r: GithubRepo) => ({
@@ -71,18 +77,47 @@ export class Repos implements OnInit {
         this.items.set(mapped);
         this.errorMessage.set(null);
       },
-      error: (err) => {
-        if (err.status === 403) {
-          this.errorMessage.set('GitHub API rate limit exceeded. Please try again later.');
-        } else if (err.status === 404) {
-          this.errorMessage.set('Commits not found for this repository.');
-        } else {
-          this.errorMessage.set('An error occurred while fetching repositories from GitHub.');
-        }
-        console.error('Error fetching repos from GitHub:', err);
-      }
+      error: (err) => this.handleError(err)
+    });
+  } else if (mode === 'issues') {
+    this.githubService.searchIssues(term).subscribe({
+      next: (res) => {
+        const uniqueReposMap = new Map<string, RepoListItem>();
+
+        res.items.forEach((issue: any) => {
+          const repoUrl = issue.repository_url;
+          const match = repoUrl.match(/repos\/(.+)$/);
+          if (match) {
+            const full_name = match[1];
+            if (!uniqueReposMap.has(full_name)) {
+              uniqueReposMap.set(full_name, {
+                name: full_name.split('/')[1],
+                full_name,
+                avatar: issue.user.avatar_url, // fallback
+                createdAt: new Date(issue.created_at)
+              });
+            }
+          }
+        });
+
+        this.items.set(Array.from(uniqueReposMap.values()));
+      },
+      error: (err) => this.handleError(err)
     });
   }
+}
+
+handleError(err: any) {
+  if (err.status === 403) {
+    this.errorMessage.set('GitHub API rate limit exceeded. Please try again later.');
+  } else if (err.status === 404) {
+    this.errorMessage.set('Results not found.');
+  } else {
+    this.errorMessage.set('An error occurred while fetching data from GitHub.');
+  }
+  console.error('Error fetching data from GitHub:', err);
+}
+
 
   clearFilterHandler(): void {
     this.searchState.setQuery('');
@@ -98,4 +133,12 @@ export class Repos implements OnInit {
   onQueryChange(newQuery: string) {
     this.searchState.setQuery(newQuery);
   }
+
+  onFilterChange(mode: 'repositories' | 'issues') {
+  this.searchMode.set(mode);
+  const term = this.querySignal();
+  if (term.trim()) {
+    this.fetchRepos(term);
+  }
+}
 }

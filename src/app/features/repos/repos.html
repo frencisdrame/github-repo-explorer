@@ -1,33 +1,63 @@
+<!-- 🔹 Titolo in alto -->
 <app-title title="Repositories"></app-title>
+
+<!-- 🔹 Barra: Clear + SearchBar -->
+<div class="search-toolbar">
+  <p-button
+    label="Clear"
+    [outlined]="true"
+    icon="pi pi-filter-slash"
+    (click)="clearFilterHandler()"
+    class="p-button-sm"
+  ></p-button>
+
+  <app-search-bar
+    [query]="querySignal()"
+    (queryChange)="onQueryChange($event)"
+    (enter)="onSearchSubmit()"
+  ></app-search-bar>
+</div>
+
+<!-- 🔹 Messaggio di errore -->
 <p *ngIf="errorMessage()" class="error-message">
   {{ errorMessage() }}
 </p>
-<p-table [value]="items()">
-  <!-- 🔍 Toolbar -->
-  <ng-template pTemplate="caption">
-    <div class="search-toolbar">
-      <p-button label="Clear" [outlined]="true" icon="pi pi-filter-slash" (click)="clearFilterHandler()" class="p-button-sm"></p-button>
 
-      <app-search-bar
-        [query]="querySignal()"
-        (queryChange)="onQueryChange($event)" 
-        (enter)="onSearchSubmit()"
-      />
+<!-- 🔹 Layout a due colonne -->
+<div class="content-layout">
+  <!-- 🔸 Filtro a sinistra -->
+  <div class="sidebar">
+    <app-menu-filter-by
+      class="sidebar"
+      (filterChange)="onFilterChange($event)">
+    </app-menu-filter-by>
+  </div>
 
-    </div>
-  </ng-template>
-  <ng-template pTemplate="header">
-    <tr>
-      <th>Name</th>
-      <th>Avatar</th>
-      <th>Created At</th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-item>
-    <tr (click)="onRowClick(item)" style="cursor: pointer;">
-      <td>{{ item.name }}</td>
-      <td><img [src]="item.avatar" alt="Owner avatar" width="40" height="40" style="border-radius: 50%; object-fit: cover;" /></td>
-      <td>{{ item.createdAt | date: 'short' }}</td>
-    </tr>
-  </ng-template>
-</p-table>
+  <!-- 🔸 Risultati a destra -->
+  <div class="results-table">
+    <p-table [value]="items()">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Name</th>
+          <th>Avatar</th>
+          <th>Created At</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-item>
+        <tr (click)="onRowClick(item)" style="cursor: pointer;">
+          <td>{{ item.name }}</td>
+          <td>
+            <img
+              [src]="item.avatar"
+              alt="Owner avatar"
+              width="40"
+              height="40"
+              style="border-radius: 50%; object-fit: cover;"
+            />
+          </td>
+          <td>{{ item.createdAt | date: 'short' }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
