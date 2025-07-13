@@ -5,6 +5,7 @@ import { SelectedRepoService } from '../../core/selected-repo.service';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
+import { AppTitle } from '../../shared/components/app-title/app-title';
 
 interface CommitListItem {
   sha: string;
@@ -20,7 +21,8 @@ interface CommitListItem {
     CommonModule, 
     ButtonModule,
     TableModule,
-    DatePipe
+    DatePipe,
+    AppTitle
   ],
   templateUrl: './commits.html',
   styleUrls: ['./commits.scss'],

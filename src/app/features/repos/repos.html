@@ -1,3 +1,4 @@
+<app-title title="Repositories"></app-title>
 <p *ngIf="errorMessage()" class="error-message">
   {{ errorMessage() }}
 </p>
@@ -7,10 +8,12 @@
     <div class="search-toolbar">
       <p-button label="Clear" [outlined]="true" icon="pi pi-filter-slash" (click)="clearFilterHandler()" class="p-button-sm"></p-button>
 
-      <span class="p-input-icon-left">
-        <i class="pi pi-search"></i>
-        <input pInputText [ngModel]="search()" (input)="searchChangeHandler($event)" placeholder="Search keyword" class="equal-height-input" type="text" />
-      </span>
+      <app-search-bar
+        [query]="querySignal()"
+        (queryChange)="onQueryChange($event)" 
+        (enter)="onSearchSubmit()"
+      />
+
     </div>
   </ng-template>
   <ng-template pTemplate="header">

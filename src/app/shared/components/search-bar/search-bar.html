@@ -1,0 +1,13 @@
+<span class="p-input-icon-left">
+  <i class="pi pi-search"></i>
+  <input
+    pInputText
+    [ngModel]="query"
+    (input)="onInputChange($event)"
+    (keyup.enter)="onSubmit()"
+    placeholder="Search repositories and issues" 
+    class="equal-height-input"
+    type="text"
+  />
+  
+</span>
