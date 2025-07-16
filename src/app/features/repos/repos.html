@@ -18,10 +18,6 @@
   ></app-search-bar>
 </div>
 
-<!-- 🔹 Messaggio di errore -->
-<p *ngIf="errorMessage()" class="error-message">
-  {{ errorMessage() }}
-</p>
 
 <!-- 🔹 Layout a due colonne -->
 <div class="content-layout">
@@ -33,8 +29,17 @@
     </app-menu-filter-by>
   </div>
 
-  <!-- 🔸 Risultati a destra -->
-  <div class="results-table">
+  <!-- Loading -->
+  <p *ngIf="isLoading()">Loading...</p>
+
+  <!-- Error -->
+  <p class="error" *ngIf="errorMessage() && !isLoading()">{{ errorMessage() }}</p>
+  
+  <!-- No results -->
+  <p *ngIf="noResults() && !isLoading() && !errorMessage()">No results found.</p>
+
+  <!-- 🔸 Results on right -->
+  <div class="results-table"  *ngIf="!isLoading() && !errorMessage() && !noResults()">
     <p-table [value]="items()">
       <ng-template pTemplate="header">
         <tr>
