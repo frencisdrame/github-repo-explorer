@@ -1,8 +1,10 @@
 {
   "name": "Angular Dev Container",
-  "image": "mcr.microsoft.com/devcontainers/typescript-node:20",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:20-bookworm", // Usando bookworm forziamo l'uso della versione stabile di Debian
   "features": {
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "moby": false // Questa istruisce la feature docker-in-docker a installare i binari ufficiali di Docker anziché cercare i pacchetti del sistema operativo
+    }
   },
   "postCreateCommand": "npm install -g @angular/cli",
   "forwardPorts": [4200],
